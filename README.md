@@ -8,7 +8,7 @@ This repository provides:
 - A WASM build of Zdepth, exposed via Emscripten and a TypeScript API wrapper.
 - An example web application (using Solid.js) demonstrating how to use the WASM module for compressing and decompressing depth data, including TIFF file parsing for input.
 
-![Zdepth WASM](img.png)
+![Zdepth WASM](https://github.com/mono424/zdepth-wasm/raw/main/assets/img.png)
 
 ## Features
 
@@ -22,7 +22,7 @@ This repository provides:
 
 ```bash
 # Clone the repository
-git clone [YOUR_REPO_URL]
+git clone https://github.com/mono424/zdepth-wasm
 cd zdepth-wasm
 
 # Install dependencies (for the example and build scripts)

@@ -46,15 +46,15 @@ This command will:
 First, install the package in your project:
 
 ```bash
-npm install ./path/to/zdepth-wasm/build
-# or if published to npm:
-npm install zdepth-wasm
+pnpm install zdepth-wasm
 ```
+
+Note: If you are using Vite for your project, ensure your vite.config.ts includes assetsInclude: ["**/*.wasm"], to correctly handle WASM files as assets.
 
 Then, in your JavaScript/TypeScript code:
 
 ```typescript
-import { ZdepthApi, DepthResult } from "zdepth-wasm"; // Adjust path if installed differently
+import { ZdepthApi, DepthResult } from "zdepth-wasm";
 
 async function runZdepthExample() {
   const zdepth = new ZdepthApi();
@@ -115,7 +115,7 @@ runZdepthExample();
 To run the Solid.js example application:
 
 ```bash
-npm start --workspace example
+pnpm dev:example
 ```
 
 This will start a development server, usually at `http://localhost:3000`, where you can test the compression/decompression in your browser.

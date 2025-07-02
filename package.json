@@ -15,7 +15,8 @@
     "build:wasm": "tsx scripts/build.ts --wasm",
     "build:ts-api": "tsx scripts/build.ts --ts-api",
     "clean": "tsx scripts/build.ts --clean",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "dev:example": "pnpm run build && cd example && pnpm run dev"
   },
   "keywords": [],
   "author": "",

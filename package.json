@@ -1,7 +1,7 @@
 {
-  "name": "zdepth-wasm",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@mono424/zdepth-wasm",
+  "version": "0.0.1",
+  "description": "WASM bindings for zdepth",
   "main": "build/zdepth_api.js",
   "module": "build/zdepth_api.js",
   "types": "build/zdepth_api.d.ts",
@@ -16,11 +16,16 @@
     "build:ts-api": "tsx scripts/build.ts --ts-api",
     "clean": "tsx scripts/build.ts --clean",
     "prepublishOnly": "npm run build",
-    "dev:example": "pnpm run build && cd example && pnpm run dev"
+    "dev:example": "pnpm run build && cd example && pnpm run dev",
+    "deploy": "pnpm run build && pnpm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mono424/zdepth-wasm.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Khadim Fall <info@khadimfall.com> (https://khad.im/)",
+  "license": "MIT",
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {
     "tsx": "^4.20.3",

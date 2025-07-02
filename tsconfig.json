@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2020",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./build",
+      "rootDir": "./src",
+      "declaration": true,
+      "resolveJsonModule": true,
+      "allowJs": false,
+      "typeRoots": ["./src/types", "./node_modules/@types"]
+    },
+    "include": [
+      "src/**/*.ts",
+      "dist/wasm_modules/interface.d.ts"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  }

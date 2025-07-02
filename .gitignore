@@ -1,0 +1,35 @@
+# Node.js
+node_modules/
+dist/
+build/
+*.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+example/dist/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+
+# WASM build artifacts
+*.wasm
+*.js
+*.wasm.map
+
+# Misc
+*.swp
+*.swo
+.idea/
+.vscode/
+.env
+.env.* 

@@ -1,0 +1,31 @@
+{
+  "name": "zdepth-wasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/zdepth_api.js",
+  "module": "build/zdepth_api.js",
+  "types": "build/zdepth_api.d.ts",
+  "files": [
+    "build/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "build:wasm": "tsx scripts/build.ts --wasm",
+    "build:ts-api": "tsx scripts/build.ts --ts-api",
+    "clean": "tsx scripts/build.ts --clean",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.5.2",
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/node": "^24.0.10"
+  }
+}

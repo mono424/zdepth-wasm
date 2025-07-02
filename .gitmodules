@@ -1,0 +1,3 @@
+[submodule "zdepth"]
+	path = zdepth
+	url = https://github.com/catid/Zdepth

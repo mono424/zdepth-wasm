@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { ZdepthApi } from "zdepth-wasm";
+import { ZdepthApi } from "@mono424/zdepth-wasm";
 
 export function useZDepth() {
   const [isInitialized, setIsInitialized] = createSignal(false);

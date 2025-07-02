@@ -8,6 +8,8 @@ This repository provides:
 - A WASM build of Zdepth, exposed via Emscripten and a TypeScript API wrapper.
 - An example web application (using Solid.js) demonstrating how to use the WASM module for compressing and decompressing depth data, including TIFF file parsing for input.
 
+![Zdepth WASM](img.png)
+
 ## Features
 
 - Lossless depth image compression.

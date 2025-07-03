@@ -1,5 +1,8 @@
 # Zdepth WASM
 
+![Build Status](https://github.com/mono424/zdepth-wasm/actions/workflows/ci.yml/badge.svg)
+[![npm version](https://img.shields.io/npm/v/@mono424/zdepth-wasm.svg)](https://www.npmjs.com/package/@mono424/zdepth-wasm)
+
 A WebAssembly (WASM) port of the Zdepth C++ library for efficient, lossless compression and decompression of depth images. Zdepth is optimized for depth data from devices like the Azure Kinect DK, leveraging Zstd compression and temporal prediction.
 
 This repository provides:
@@ -48,7 +51,7 @@ This command will:
 First, install the package in your project:
 
 ```bash
-pnpm install zdepth-wasm
+pnpm install @mono424/zdepth-wasm
 ```
 
 Note: If you are using Vite for your project, ensure your vite.config.ts includes assetsInclude: ["**/*.wasm"], to correctly handle WASM files as assets.
@@ -56,7 +59,7 @@ Note: If you are using Vite for your project, ensure your vite.config.ts include
 Then, in your JavaScript/TypeScript code:
 
 ```typescript
-import { ZdepthApi, DepthResult } from "zdepth-wasm";
+import { ZdepthApi, DepthResult } from "@mono424/zdepth-wasm";
 
 async function runZdepthExample() {
   const zdepth = new ZdepthApi();

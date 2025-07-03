@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 
-export default defineConfig({
-  base: "/zdepth-wasm/",
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/zdepth-wasm/" : "/",
   plugins: [solidPlugin()],
   server: {
     port: 3000,
@@ -11,8 +11,8 @@ export default defineConfig({
     target: "esnext",
   },
   optimizeDeps: {
-    exclude: ["zdepth-wasm"],
+    exclude: ["@mono424/zdepth-wasm"],
   },
   assetsInclude: ["**/*.wasm"],
   publicDir: "public",
-});
+}));

@@ -18,6 +18,9 @@ const ZDepthExample: Component = () => {
     data: Uint16Array;
   } | null>(null);
   const [keyframe, setKeyframe] = createSignal(true);
+  const [activeTab, setActiveTab] = createSignal<"compress" | "decompress">(
+    "compress"
+  );
   const zdepth = useZDepth();
 
   createEffect(() => console.log(zdepth.initialize()));
@@ -137,83 +140,187 @@ const ZDepthExample: Component = () => {
     }
   };
 
+  // Reset state when switching tabs
+  const handleTabChange = (tab: "compress" | "decompress") => {
+    setActiveTab(tab);
+    setDepthData(null);
+    setCompressedData(null);
+    setDecompressedData(null);
+  };
+
   return (
     <div style={{ padding: "2rem", "max-width": "600px", margin: "0 auto" }}>
       <h1>ZDepth WASM Example</h1>
 
-      <div style={{ margin: "1rem 0" }}>
-        <label>
-          Upload Original Depth Data:{" "}
-          <input
-            type="file"
-            accept=".bin,.raw,.tiff,.tif"
-            onChange={(e) => handleFileUpload(e, false)}
-          />
-        </label>
-        <label>
-          Upload Compressed Data:{" "}
-          <input
-            type="file"
-            accept=".zdepth"
-            onChange={(e) => handleFileUpload(e, true)}
-          />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={keyframe()}
-            onChange={(e) => setKeyframe(e.currentTarget.checked)}
-          />{" "}
-          Keyframe
-        </label>
+      {/* Tab Buttons */}
+      <div
+        style={{
+          display: "flex",
+          gap: "1rem",
+          "margin-bottom": "1.5rem",
+        }}
+      >
+        <button
+          style={{
+            width: "240px",
+            padding: "0.5rem 0",
+            border:
+              activeTab() === "compress"
+                ? "1px solid #b318f0"
+                : "1px solid #ccc",
+            background: activeTab() === "compress" ? "#f7f0fa" : "#fff",
+            cursor: activeTab() === "compress" ? "default" : "pointer",
+            "border-radius": "6px",
+            "font-weight": "bold",
+            color: activeTab() === "compress" ? "#b318f0" : "gray",
+          }}
+          disabled={activeTab() === "compress"}
+          onClick={() => handleTabChange("compress")}
+        >
+          Compress
+        </button>
+        <button
+          style={{
+            width: "240px",
+            padding: "0.5rem 0",
+            border:
+              activeTab() === "decompress"
+                ? "1px solid #b318f0"
+                : "1px solid #ccc",
+            background: activeTab() === "decompress" ? "#f7f0fa" : "#fff",
+            cursor: activeTab() === "decompress" ? "default" : "pointer",
+            "border-radius": "6px",
+            "font-weight": "bold",
+            color: activeTab() === "decompress" ? "#b318f0" : "gray",
+          }}
+          disabled={activeTab() === "decompress"}
+          onClick={() => handleTabChange("decompress")}
+        >
+          Decompress
+        </button>
       </div>
 
       <Show when={zdepth.error()}>
         <div style={{ color: "red" }}>Error: {zdepth.error()}</div>
       </Show>
 
-      <Show when={depthData()}>
+      {/* Compress Tab */}
+      <Show when={activeTab() === "compress"}>
         <div>
-          <h3>
-            Original Data ({depthData()?.width} x {depthData()?.height})
-          </h3>
-          <TiffPreview
-            data={depthData()!.data}
-            width={depthData()!.width}
-            height={depthData()!.height}
-          />
-          <button onClick={handleCompress} disabled={zdepth.isLoading()}>
-            {zdepth.isLoading() ? "Compressing..." : "Compress"}
-          </button>
+          <div style={{ margin: "1rem 0" }}>
+            <label>
+              Upload Original Depth Data:{" "}
+              <input
+                type="file"
+                accept=".bin,.raw,.tiff,.tif"
+                onChange={(e) => handleFileUpload(e, false)}
+              />
+            </label>
+            <label style={{ "margin-left": "1rem" }}>
+              <input
+                type="checkbox"
+                checked={keyframe()}
+                onChange={(e) => setKeyframe(e.currentTarget.checked)}
+              />{" "}
+              Keyframe
+            </label>
+          </div>
+
+          <Show when={depthData()}>
+            <div>
+              <h3>
+                Original Data ({depthData()?.width} x {depthData()?.height})
+              </h3>
+              <TiffPreview
+                data={depthData()!.data}
+                width={depthData()!.width}
+                height={depthData()!.height}
+              />
+              <button onClick={handleCompress} disabled={zdepth.isLoading()}>
+                {zdepth.isLoading() ? "Compressing..." : "Compress"}
+              </button>
+            </div>
+          </Show>
+
+          <Show when={compressedData()}>
+            <div>
+              <h3>
+                Compressed ({compressedData()?.length.toLocaleString()} bytes)
+              </h3>
+              <button
+                onClick={() =>
+                  downloadBlob(
+                    new Blob([compressedData()!]),
+                    "compressed.zdepth"
+                  )
+                }
+              >
+                Download
+              </button>
+            </div>
+          </Show>
+
+          <Show when={decompressedData()}>
+            <div>
+              <h3>
+                Decompressed ({decompressedData()?.width} x{" "}
+                {decompressedData()?.height})
+              </h3>
+              <TiffPreview
+                data={decompressedData()!.data}
+                width={decompressedData()!.width}
+                height={decompressedData()!.height}
+              />
+            </div>
+          </Show>
         </div>
       </Show>
 
-      <Show when={compressedData()}>
+      {/* Decompress Tab */}
+      <Show when={activeTab() === "decompress"}>
         <div>
-          <h3>
-            Compressed ({compressedData()?.length.toLocaleString()} bytes)
-          </h3>
-          <button
-            onClick={() =>
-              downloadBlob(new Blob([compressedData()!]), "compressed.zdepth")
-            }
-          >
-            Download
-          </button>
-        </div>
-      </Show>
+          <div style={{ margin: "1rem 0" }}>
+            <label>
+              Upload Compressed Data:{" "}
+              <input
+                type="file"
+                accept=".zdepth"
+                onChange={(e) => handleFileUpload(e, true)}
+              />
+            </label>
+          </div>
 
-      <Show when={decompressedData()}>
-        <div>
-          <h3>
-            Decompressed ({decompressedData()?.width} x{" "}
-            {decompressedData()?.height})
-          </h3>
-          <TiffPreview
-            data={decompressedData()!.data}
-            width={decompressedData()!.width}
-            height={decompressedData()!.height}
-          />
+          <Show when={compressedData()}>
+            <div>
+              <h3>
+                Compressed ({compressedData()?.length.toLocaleString()} bytes)
+              </h3>
+              <button
+                onClick={() =>
+                  downloadBlob(
+                    new Blob([compressedData()!]),
+                    "compressed.zdepth"
+                  )
+                }
+              >
+                Download
+              </button>
+            </div>
+          </Show>
+
+          <Show when={decompressedData()}>
+            <div>
+              <h3>
+                Decompressed ({decompressedData()?.width} x{" "}
+                {decompressedData()?.height})
+              </h3>
+              <TiffPreview
+                data={decompressedData()!.data}
+                width={decompressedData()!.width}
+                height={decompressedData()!.height}
+              />
+            </div>
+          </Show>
         </div>
       </Show>
     </div>

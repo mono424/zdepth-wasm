@@ -1,6 +1,6 @@
 # Zdepth WASM
 
-![Build Status](https://github.com/mono424/zdepth-wasm/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/mono424/zdepth-wasm/actions/workflows/gh-pages.yml/badge.svg)
 [![npm version](https://img.shields.io/npm/v/@mono424/zdepth-wasm.svg)](https://www.npmjs.com/package/@mono424/zdepth-wasm)
 
 A WebAssembly (WASM) port of the Zdepth C++ library for efficient, lossless compression and decompression of depth images. Zdepth is optimized for depth data from devices like the Azure Kinect DK, leveraging Zstd compression and temporal prediction.

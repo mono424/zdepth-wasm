@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@mono424/zdepth-wasm':
-        specifier: file:..
-        version: file:..
+        specifier: ^0.0.1
+        version: 0.0.1
       gh-pages:
         specifier: ^6.0.0
         version: 6.3.0
@@ -282,8 +282,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@mono424/zdepth-wasm@file:..':
-    resolution: {directory: .., type: directory}
+  '@mono424/zdepth-wasm@0.0.1':
+    resolution: {integrity: sha512-+htQUf11xVyyNDuM1eOVC9SX/7Qzw6VYE5XMrsq1tG1HxK4x1RTwDDP1TVm+un0zdyAlqU/WyxoPvqLApQ2v1g==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1010,7 +1010,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@mono424/zdepth-wasm@file:..':
+  '@mono424/zdepth-wasm@0.0.1':
     dependencies:
       '@types/node': 24.0.10
 

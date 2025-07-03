@@ -37,7 +37,7 @@ const ZDepthExample: Component = () => {
     const rawHeight = ifd.t257?.[0]; // Tag 257: ImageLength (Height)
     const rawBitsPerSample = ifd.t258?.[0]; // Tag 258: BitsPerSample
     const rawSamplesPerPixel = ifd.t277?.[0]; // Tag 277: SamplesPerPixel
-
+    console.log(ifd);
     if (
       rawWidth === undefined ||
       rawHeight === undefined ||
@@ -138,6 +138,58 @@ const ZDepthExample: Component = () => {
     } catch (error) {
       console.error("Compression failed:", error);
     }
+  };
+
+  const downloadDecompressedAsTIFF = () => {
+    const data = decompressedData();
+
+    if (!data) {
+      console.warn("No decompressed data available to download.");
+      return;
+    }
+
+    const { width, height, data: pixelData } = data;
+    const pixelDataUint8 = new Uint8Array(
+      pixelData.buffer,
+      pixelData.byteOffset,
+      pixelData.byteLength
+    );
+
+    // Prepare minimal IFD object for UTIF.js (no 'data' property, no encodeImage call)
+    const ifdObject: any = {
+      t256: [width], // ImageWidth
+      t257: [height], // ImageLength
+      t258: [16], // BitsPerSample
+      t259: [1], // Compression (no compression)
+      t262: [1], // PhotometricInterpretation (black is zero)
+      t273: [0], // StripOffsets (start at 0)
+      t277: [1], // SamplesPerPixel
+      t278: [height], // RowsPerStrip
+      t279: [pixelDataUint8.length], // StripByteCounts
+      t284: [1],
+    };
+
+    const tiffHeader = UTIF.encode([ifdObject]);
+    console.log("TIFF header:", tiffHeader);
+    if (!tiffHeader || !(tiffHeader instanceof ArrayBuffer)) {
+      console.error("UTIF.encode failed to return a valid TIFF buffer.");
+      return;
+    }
+
+    const tiffHeaderUint8 = new Uint8Array(tiffHeader);
+
+    // Concatenate the header and the pixel data
+    const tiffBuffer = new Uint8Array(
+      tiffHeaderUint8.length + pixelDataUint8.length
+    );
+    tiffBuffer.set(tiffHeaderUint8, 0);
+    tiffBuffer.set(pixelDataUint8, tiffHeaderUint8.length);
+
+    const blob = new Blob([tiffBuffer], { type: "image/tiff" });
+    downloadBlob(blob, "decompressed.tiff");
+    console.log(
+      `TIFF download initiated for ${width}x${height} (16-bit grayscale) image.`
+    );
   };
 
   // Reset state when switching tabs
@@ -295,16 +347,6 @@ const ZDepthExample: Component = () => {
               <h3>
                 Compressed ({compressedData()?.length.toLocaleString()} bytes)
               </h3>
-              <button
-                onClick={() =>
-                  downloadBlob(
-                    new Blob([compressedData()!]),
-                    "compressed.zdepth"
-                  )
-                }
-              >
-                Download
-              </button>
             </div>
           </Show>
 
@@ -319,6 +361,9 @@ const ZDepthExample: Component = () => {
                 width={decompressedData()!.width}
                 height={decompressedData()!.height}
               />
+              <button onClick={() => downloadDecompressedAsTIFF()}>
+                Download
+              </button>
             </div>
           </Show>
         </div>

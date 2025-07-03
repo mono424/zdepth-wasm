@@ -29,7 +29,24 @@ jobs:
       - name: Build example app
         run: pnpm run build
 
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm run deploy -- --user "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+        id: deployment
+          uses: actions/deploy-pages@v4

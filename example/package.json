@@ -7,13 +7,11 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "serve": "vite preview"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/utif": "^3.0.5",
-    "gh-pages": "^6.0.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
     "vite-plugin-solid": "^2.11.6"
